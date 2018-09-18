@@ -1,4 +1,4 @@
-function [sys,x0,str,ts,simStateCompliance] = mass_spring(t,x,u,flag)
+function [sys,x0,str,ts,simStateCompliance] = inverted_pendulum(t,x,u,flag)
 switch flag,
   %%%%%%%%%%%%%%%%%%
   % Initialization %
@@ -64,7 +64,7 @@ function [sys,x0,str,ts,simStateCompliance]=mdlInitializeSizes()
 %
 sizes = simsizes;
 
-sizes.NumContStates  = 2;
+sizes.NumContStates  = 4;
 sizes.NumDiscStates  = 0;
 sizes.NumOutputs     = 1;
 sizes.NumInputs      = 1;
@@ -76,7 +76,7 @@ sys = simsizes(sizes);
 %
 % initialize the initial conditions
 %
-x0  = [.1, 0];
+x0  = [0,0,.1, 0];
 
 %
 % str is always an empty matrix
@@ -107,6 +107,9 @@ function sys=mdlDerivatives(t,x,u)
 k1=100;
 k2=500;
 m=1;
+l_c1 = 0; 
+l_c2 = 0; 
+l_1 = 0; 
 A=[0 1; -k2/m -k1/m];
 B=[0;1/m];
 sys = A*x+B*u;

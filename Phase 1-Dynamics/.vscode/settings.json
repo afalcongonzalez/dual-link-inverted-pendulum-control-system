@@ -1,0 +1,10 @@
+{
+    "matlab.matlabpath": "C:\\Program Files\\MATLAB\\R2018b\\bin\\matlab.exe",
+    "matlab.mlintpath": "C:\\Program Files\\MATLAB\\R2018b\\bin\\win64\\mlint.exe",
+    // Controls the font size in pixels.
+  "editor.fontSize": 13,
+
+  // Controls the font family.
+  "editor.fontFamily":"Consolas, 'Droid Sans Mono', monospace",
+
+}
