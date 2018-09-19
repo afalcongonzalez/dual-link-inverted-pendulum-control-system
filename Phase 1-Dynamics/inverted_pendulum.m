@@ -76,7 +76,7 @@ sys = simsizes(sizes);
 %
 % initialize the initial conditions
 %
-x0  = [0,0,.1, 0];
+x0  = [pi/12,0,0, 0];
 
 %
 % str is always an empty matrix
@@ -104,14 +104,20 @@ simStateCompliance = 'UnknownSimState';
 %=============================================================================
 %
 function sys=mdlDerivatives(t,x,u)
-k1=100;
-k2=500;
-m=1;
-l_c1 = 0; 
-l_c2 = 0; 
-l_1 = 0; 
-A=[0 1; -k2/m -k1/m];
-B=[0;1/m];
+m_1=1;
+m_2 = 1; 
+g= 9.81; 
+l_c1 = 2; 
+l_c2 = 4; 
+l_1 = 12; 
+I_1 = 3; 
+I_2 = 4; 
+alpha1 = (g*m_2*(l_1 +l_c1) + g*l_c1*m_1)/I_1; 
+alpha2 = (g*l_c2*m_2)/I_1; 
+beta1 = (g*l_c2*m_2)/I_2; 
+beta2 = beta1; 
+A=[0 0 1 0;0 0 0 1; alpha1 alpha2 0 0; beta1 beta2 0 0 ];
+B=[0;0;1/I_1; 0];
 sys = A*x+B*u;
 
 % end mdlDerivatives
@@ -136,7 +142,7 @@ sys = [];
 %=============================================================================
 %
 function sys=mdlOutputs(t,x,u)
-C=[1 0];
+C=[1 0 0 0];
 D=0;
 sys = C*x+D*u;
 
