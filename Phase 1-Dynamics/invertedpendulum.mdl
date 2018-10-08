@@ -1,12 +1,12 @@
 Model {
-  Name			  "massspring"
+  Name			  "invertedpendulum"
   Version		  9.2
   SavedCharacterEncoding  "windows-1252"
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.5"
+    ComputedModelVersion    "1.7"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -69,8 +69,8 @@ Model {
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
 	Extents			[974.0, 565.0]
-	ZoomFactor		[0.60000000000000009]
-	Offset			[-86.833333333333314, -166.77777777777783]
+	ZoomFactor		[1.0]
+	Offset			[129.61111111111109, -41.222222222222314]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -104,9 +104,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "AndyA"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Sep 18 21:14:44 2018"
-  RTWModifiedTimeStamp	  459204138
-  ModelVersionFormat	  "1.%<AutoIncrement:5>"
+  LastModifiedDate	  "Mon Oct 08 12:41:18 2018"
+  RTWModifiedTimeStamp	  460903109
+  ModelVersionFormat	  "1.%<AutoIncrement:7>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -163,11 +163,11 @@ Model {
     $PropName		    "DataLoggingOverride"
     $ObjectID		    7
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
-    model_		    "massspring"
+    model_		    "invertedpendulum"
     Array {
       Type		      "Cell"
       Dimension		      1
-      Cell		      "massspring"
+      Cell		      "invertedpendulum"
       PropName		      "logAsSpecifiedByModels_"
     }
     Array {
@@ -396,7 +396,7 @@ Model {
 	  MaxConsecutiveZCsMsg	  "error"
 	  MaskedZcDiagnostic	  "warning"
 	  IgnoredZcDiagnostic	  "warning"
-	  SolverPrmCheckMsg	  "warning"
+	  SolverPrmCheckMsg	  "none"
 	  InheritedTsInSrcMsg	  "warning"
 	  MultiTaskDSMMsg	  "error"
 	  MultiTaskCondExecSysMsg "error"
@@ -908,8 +908,8 @@ Model {
       }
       Name		      "Configuration"
       ExtraOptions	      ""
-      CurrentDlgPage	      "Solver"
-      ConfigPrmDlgPosition    [ 243, 69, 1123, 699 ]
+      CurrentDlgPage	      "Diagnostics"
+      ConfigPrmDlgPosition    [ 129, 92, 1009, 672 ]
     }
     PropName		    "ConfigurationSets"
   }
@@ -1011,7 +1011,7 @@ Model {
     }
   }
   System {
-    Name		    "massspring"
+    Name		    "invertedpendulum"
     Location		    [327, 51, 1028, 593]
     Open		    on
     PortBlocksUseCompactNotation off
@@ -1027,7 +1027,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "60"
+    ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "3"
     Block {
@@ -1079,7 +1079,7 @@ Model {
       ",'%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',0,'LineNames',{{[]}},'Sho"
       "wContent',true,'Placement',1)),extmgr.Configuration('Tools','Plot Navigation',true,'OnceAtStop',false,'PreviousA"
       "utoscale','XY'),extmgr.Configuration('Tools','Measurements',true,'Version','2018b')),'Version','2018b','Location"
-      "',[1 71.6666666666667 1281 679],'VisibleAtModelOpen','on')"
+      "',[1 71.6666666666667 1281 679])"
       NumInputPorts	      "1"
       Floating		      off
     }
@@ -1092,6 +1092,7 @@ Model {
       ZOrder		      -3
       Amplitude		      "10"
       SampleTime	      "0"
+      VectorParams1D	      off
     }
     Line {
       ZOrder		      1
