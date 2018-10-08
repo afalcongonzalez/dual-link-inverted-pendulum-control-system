@@ -45,4 +45,5 @@ X = [ x1; x2 ;x3;x4];
 Tau = [u1;u2];
 A = jacobian(Xdot,X);
 B = jacobian(Xdot,Tau);
-A1 = subs(A,[x1 x2 x3 x4][pi 0 0 0
+A1 = subs(A,[x1 x2 x3 x4],[pi 0 0 0]);
+B1 = subs(B,[x1 x2 x3 x4],[pi 0 0 0]);

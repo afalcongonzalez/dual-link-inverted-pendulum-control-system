@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.7"
+    ComputedModelVersion    "1.8"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -69,8 +69,8 @@ Model {
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
 	Extents			[974.0, 565.0]
-	ZoomFactor		[1.0]
-	Offset			[129.61111111111109, -41.222222222222314]
+	ZoomFactor		[1.7499999999999998]
+	Offset			[150.57936507936481, 150.82857142857102]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -104,9 +104,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "AndyA"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Oct 08 12:41:18 2018"
-  RTWModifiedTimeStamp	  460903109
-  ModelVersionFormat	  "1.%<AutoIncrement:7>"
+  LastModifiedDate	  "Mon Oct 08 12:50:22 2018"
+  RTWModifiedTimeStamp	  460903761
+  ModelVersionFormat	  "1.%<AutoIncrement:8>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -1027,7 +1027,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "100"
+    ZoomFactor		    "175"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "3"
     Block {
@@ -1092,7 +1092,6 @@ Model {
       ZOrder		      -3
       Amplitude		      "10"
       SampleTime	      "0"
-      VectorParams1D	      off
     }
     Line {
       ZOrder		      1
