@@ -18,8 +18,9 @@ L = K-P;
 
 % our mechanical system has 2 degrees of freedom q1,q2 therefor
 % the euler lagrang fomulations are as follows 
-% q1 
-
+%  heres where we put the solutions i havent gotten to that yet but 2 sec
+%  baby food thing
+%%
 % we have euler lagrangian equation relating potential engerys to kinetic
 % engeries for the double pendulum system 
 % lagrange equations follow the form D(q)*qdotdot +N(q,qdot) = tau
@@ -48,12 +49,14 @@ A = jacobian(Xdot,X);
 B = jacobian(Xdot,Tau);
 C =  [ 1 0 0 0;0 1 0 0; 0 0 0 0; 0 0 0 0];
 D = 0;
+Q1DotDot = (subs(Q1DotDot,[ m1 m2 I1 I2 lc1 lc2 l1 g bf1 bf2 k],[ 0.03 0.03 0.05 0.05 0.04 0.04 0.08 9.8 0.003 0.0006 1]));
+Q2DotDot = (subs(Q2DotDot,[m1 m2 I1 I2 lc1 lc2 l1 g bf1 bf2 k],[ 0.03 0.03 0.05 0.05 0.04 0.04 0.08 9.8 0.003 0.0006 1]));
 
-Abar = double(subs(A,[x1 x2 x3 x4 m1 m2 I1 I2 lc1 lc2 l1 g bf1 bf2 k],[pi/2 0 0 0 0.03 0.03 0.05 0.05 0.04 0.04 0.08 9.8 0.03 0.006 0.5]));
-Bbar =double(subs(B,[x1 x2 x3 x4 m1 m2 I1 I2 lc1 lc2 l1 g bf1 bf2 k],[pi/2 0 0 0 0.03 0.03 0.05 0.05 0.04 0.04 0.08 9.8 0.03 0.006 0.5]));
+Abar = double(subs(A,[x1 x2 x3 x4 m1 m2 I1 I2 lc1 lc2 l1 g bf1 bf2 k],[0 0 0 0 0.03 0.03 0.05 0.05 0.04 0.04 0.08 9.8 0.003 0.0006 1]));
+Bbar =double(subs(B,[x1 x2 x3 x4 m1 m2 I1 I2 lc1 lc2 l1 g bf1 bf2 k],[0 0 0 0 0.03 0.03 0.05 0.05 0.04 0.04 0.08 9.8 0.003 0.0006 1]));
 
 A1 = subs(A,[x1 x2 x3 x4],[pi/2 0 0 0]);
 B1 = subs(B,[x1 x2 x3 x4],[pi/2 0 0 0]);
-A_ = subs(A1,[m1 m2 I1 I2 lc1 lc2 l1 g bf1 bf2 k],[0.03 0.03 0.05 0.05 0.04 0.04 0.08 9.8 0.4 0.6 0.5]);
-B_ = subs(B1,[m1 m2 I1 I2 lc1 lc2 l1 g bf1 bf2 k],[0.03 0.03 0.05 0.05 0.04 0.04 0.08 9.8 0.4 0.6 0.5]);
+A_ = subs(A1,[m1 m2 I1 I2 lc1 lc2 l1 g bf1 bf2 k],[5 3 5 5 0.04 0.04 0.08 9.8 0.4 0.6 0.5]);
+B_ = subs(B1,[m1 m2 I1 I2 lc1 lc2 l1 g bf1 bf2 k],[5 3 5 5 0.04 0.04 0.08 9.8 0.4 0.6 0.5]);
 system = ss(double(A_),double(B_(:,1)),[ 1 0 0 0;0 1 0 0; 0 0 1 0; 0 0 0 1],0);
