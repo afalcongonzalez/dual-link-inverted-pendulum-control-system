@@ -1,30 +1,29 @@
 function [sys,x0,str,ts,simStateCompliance] = sfunc(t,x,u,flag)
 
 %% System definition %%%%%
-%case 1
-A = [                    0                         0                         0                         1;
-                         0                         0                         1                         0;
-          -59.105652853348         -67.1066941831455                         0                         0;
-          1648.37419414485          1679.48752187269                         0                         0;];
+theta = [11.9253 0.4203 0.1455 7.2462 1.8150 35.1492 0.0089]'; % identification from phase 2 see "Identified System Parameters.txt"
 
-B =    [                 0;
-                         0;
-         0.112555621332906;
-        -0.437690519245073;];
+q_10 = pi/2; % linearized angle 1
 
-C = eye(4); 
+q_20 = 0; % linearized angle 2
 
-% %case2
-% A = [                    0                         0                         0                         1;
-%                          0                         0                         1                         0;
-%           54.4868170421494          48.6824711634452                         0                         0;
-%           1521.43947894732          1510.47704425682                         0                         0;];
-% 
-% B = [                    0;
-%                          0;
-%         0.0816533410939363;
-%          0.154215382354733;];
-% C = eye(4);
+g = 9.81; 
+M = [ theta(1)-2*theta(2)*cos(q_20) , theta(3)+theta(2)*cos(q_20); theta(3)+theta(2)*cos(q_20) , theta(3)];
+
+K = [ -theta(4)*g*sin(q_10)- sin((2*1i+1)*pi/2)*theta(5)*g , -sin((2*1i+1)*pi/2)*theta(5)*g; -sin((2*1i+1)*pi/2)*theta(5)*g,-sin((2*1i+1)*pi/2)*theta(5)*g]; 
+
+%from the lab documentation
+A = 
+        [                 0                         0                         0                         1;
+                         0                         0                         1                         0
+          -59.105652853348         -67.1066941831455                         0                         0
+          1648.37419414485          1679.48752187269                         0                         0
+
+B = [[0 0;0 0];inv(M)]*[1;0];
+
+C = [1 0 0 0; 0 1 0 0]; 
+
+
 switch flag,
 
   %%%%%%%%%%%%%%%%%%
