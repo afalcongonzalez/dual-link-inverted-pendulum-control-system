@@ -1,16 +1,23 @@
 function [sys,x0,str,ts,simStateCompliance] = sfunc(t,x,u,flag)
 
 %% System definition %%%%%
-A= [0.2    1.2  -10;
-    0.8   -0.5   -4;
-    0.05    0.025   -1.25];
+theta = [11.9253 0.4203 0.1455 7.2462 1.8150 35.1492 0.0089]'; % identification from phase 2 see "Identified System Parameters.txt"
 
-B=[1,-1;
-    0 1;
-   -1, 1];
+q_10 = pi/2; % linearized angle 1
 
+q_20 = 0; % linearized angle 2
 
-C=eye(3);
+g = 9.81; 
+M = [ theta(1)-2*theta(2)*cos(q_20) , theta(3)+theta(2)*cos(q_20); theta(3)+theta(2)*cos(q_20) , theta(3)];
+
+K = [ -theta(4)*g*sin(q_10)- sin((2*1i+1)*pi/2)*theta(5)*g , -sin((2*1i+1)*pi/2)*theta(5)*g; -sin((2*1i+1)*pi/2)*theta(5)*g,-sin((2*1i+1)*pi/2)*theta(5)*g]; 
+
+%from the lab documentation
+A = [ [0 0;0 0], [0 1;1 0]; -inv(M)*K ,[0 0;0 0]];
+
+B = [[0 0;0 0];inv(M)]*[1;0];
+
+C = [1 0 0 0; 0 1 0 0]; 
 
 
 switch flag,
@@ -79,10 +86,10 @@ function [sys,x0,str,ts,simStateCompliance]=mdlInitializeSizes
 %
 sizes = simsizes;
 
-sizes.NumContStates  = 3;
+sizes.NumContStates  = 4;
 sizes.NumDiscStates  = 0;
-sizes.NumOutputs     = 3;
-sizes.NumInputs      = 2;
+sizes.NumOutputs     = 2;
+sizes.NumInputs      = 1;
 sizes.DirFeedthrough = 0;
 sizes.NumSampleTimes = 1;   % at least one sample time is needed
 

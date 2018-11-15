@@ -1,4 +1,3 @@
-%% Lab_2 Calculations
 clear; clc; close all;
 load Sys_Ident_Lab2.mat
 load Sys_Verification_Lab2.mat
@@ -13,6 +12,7 @@ end
 
 total_time = 30;
 delta_t = 30/length(q1);
+
 for i = 1:(length(q1)-1)
     q1_dot(i,1) = (q1(i+1)-q1(i))/delta_t;
     q2_dot(i,1) = (q2(i+1)-q2(i))/delta_t;
@@ -34,15 +34,15 @@ Y_bar = zeros(60002,5);
 j = 1;
 for i = 1:2:length(q1)*2
     Y_bar(i,1) = q1_2dot(j);
-    Y_bar(i,2) = cos(q2(j)).*(2*q1_2dot(j)+q2_2dot(j)) - sin(q2(j)).*(q1_dot(j).^2+2*q1_dot(j).*q2_dot(j));
+    Y_bar(i,2) = cos(q2(j))*(2*q1_2dot(j)+q2_2dot(j)) - sin(q2(j))*(q1_dot(j).^2+2*q1_dot(j)*q2_dot(j));
     Y_bar(i,3) = q2_2dot(j);
     Y_bar(i,4) = g*cos(q1(j));
     Y_bar(i,5) = g*cos(q1(j)+q2(j));
     Y_bar(i+1,1) = 0;
-    Y_bar(i+1,2) = cos(q2(j)).*q1_2dot(j) + sin(q2(j)).*q1_dot(j).^2;
+    Y_bar(i+1,2) = cos(q2(j))*q1_2dot(j) + sin(q2(j))*q1_dot(j).^2;
     Y_bar(i+1,3) = q1_2dot(j) + q2_2dot(j);
     Y_bar(i+1,4) = 0;
-    Y_bar(i+1,5) = g.*cos(q1(j)+q2(j));
+    Y_bar(i+1,5) = g*cos(q1(j)+q2(j));
     j = j + 1;
 end
     
@@ -57,6 +57,7 @@ for i = 1:2:length(torque_v)*2
 end
 
 delta_t = 30/length(q1);
+
 for i = 1:(length(q1_v)-1)
     q1v_dot(i,1) = (q1_v(i+1)-q1_v(i))/delta_t;
     q2v_dot(i,1) = (q2_v(i+1)-q2_v(i))/delta_t;
@@ -89,12 +90,6 @@ for i = 1:2:length(q1_v)*2
     Yv_bar(i+1,5) = g*cos(q1_v(j)+q2_v(j));
     j = j + 1;
 end
-   d = fdesign.lowpass('Fp,Fst,Ap,Ast',3,10,0.5,40,100);
-   Hd = design(d,'equiripple');
-   output_1 = filter(Hd,q1_2dot);
-   output_2 = filter(Hd,q1_2dot);
-  fvtool(Hd);
-  figure;
-  plot(q1_2dot);
-  figure;
-  plot(output_1);
+    
+
+U_tilda = Yv_bar*Theta_hat - Uv_bar;
