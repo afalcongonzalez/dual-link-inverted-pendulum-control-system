@@ -6,7 +6,7 @@ X0=[q1+.1 q2-.2 0 0];
 T=.001;
 NewPanto=1;
 %% System Parameters
-Parameters = [];
+Parameters = [11.9253 0.4203 0.1455 7.2462 1.8150 35.1492 0.0089];
 %% Linear System Definition
 M = [Parameters(1)+2*Parameters(2)*cos(q2),  Parameters(3)+Parameters(2)*cos(q2);
     Parameters(3)+Parameters(2)*cos(q2),     Parameters(3)];
@@ -32,10 +32,10 @@ EigenValues=eig(A)
 %% Controllability and Controller Gain Design
 Pc=ctrb(A,B)
 rank(Pc)
-p=[];
+p=[-15 -12 -10 -8];
 K = place(A,B,p)
 %% Observability and Estimator Gain Design
 Po=obsv(A,C)
 rank(Po)
-po=[];
+po=10*p;
 L = transpose(place(A', C',po))
