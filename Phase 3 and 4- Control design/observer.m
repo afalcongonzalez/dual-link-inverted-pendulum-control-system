@@ -1,22 +1,6 @@
-function [sys,x0,str,ts,simStateCompliance] = observer(t,x,u,flag)
+function [sys,x0,str,ts,simStateCompliance] = observer(t,x,u,flag,X0,Parameters,L,C)
 
 %% System definition %%%%%
-A= [0.2    1.2  -10;
-    0.8   -0.5   -4;
-    0.05    0.025   -1.25];
-
-B=[1,-1;
-    0 1;
-   -1, 1];
-
-C=[1, 0, 0;
-    0, 1, 0];
-
-L=[22.7875,3.8967;
-    5.4206,10.6625;
-  -10.3911,-3.6572];
-
-
 
 switch flag,
 
@@ -24,13 +8,13 @@ switch flag,
   % Initialization %
   %%%%%%%%%%%%%%%%%%
   case 0,
-    [sys,x0,str,ts,simStateCompliance]=mdlInitializeSizes;
+    [sys,x0,str,ts,simStateCompliance]=mdlInitializeSizes(X0);
 
   %%%%%%%%%%%%%%%
   % Derivatives %
   %%%%%%%%%%%%%%%
   case 1,
-    sys=mdlDerivatives(t,x,u,A,B,C,L);
+    sys=mdlDerivatives(t,x,u,X0,Parameters,L,C);
 
   %%%%%%%%%%
   % Update %
@@ -72,7 +56,7 @@ end
 % Return the sizes, initial conditions, and sample times for the S-function.
 %=============================================================================
 %
-function [sys,x0,str,ts,simStateCompliance]=mdlInitializeSizes
+function [sys,x0,str,ts,simStateCompliance]=mdlInitializeSizes(X0)
 
 %
 % call simsizes for a sizes structure, fill it in and convert it to a
@@ -84,9 +68,9 @@ function [sys,x0,str,ts,simStateCompliance]=mdlInitializeSizes
 %
 sizes = simsizes;
 
-sizes.NumContStates  = 3;
+sizes.NumContStates  = 4;
 sizes.NumDiscStates  = 0;
-sizes.NumOutputs     = 3;
+sizes.NumOutputs     = 4;
 sizes.NumInputs      = 4;
 sizes.DirFeedthrough = 0;
 sizes.NumSampleTimes = 1;   % at least one sample time is needed
@@ -96,7 +80,7 @@ sys = simsizes(sizes);
 %
 % initialize the initial conditions
 %
-x0  = [0, 0, 0];
+x0  = X0;
 
 
 
@@ -126,7 +110,16 @@ simStateCompliance = 'UnknownSimState';
 % Return the derivatives for the continuous states.
 %=============================================================================
 %
-function sys=mdlDerivatives(t,x,u,A,B,C,L)
+function sys=mdlDerivatives(t,x,u,X0,Parameters,L,C)
+g = 9.81; 
+q10 = X0(1);
+q20 = X0(2);
+Kbar = [-(Parameters(4)*g*sin(q10))-sin(q10+q20)*Parameters(5)*g -sin(q10+q20)*Parameters(5)*g;-sin(q10+q20)*Parameters(5)*g -sin(q10+q20)*Parameters(5)*g];
+Mbar = [Parameters(1)+2*Parameters(2)*cos(q20) Parameters(3)+Parameters(2)*cos(q20);Parameters(3)+Parameters(2)*cos(q20) Parameters(3)];
+Fbar = [Parameters(6) 0;0 Parameters(7)];
+
+A = [zeros(2,2) eye(2);-Mbar\Kbar -Mbar\Fbar];
+B = [zeros(2,2);inv(Mbar)]*[1;0];
 sys=(A-L*C)*x+[B L]*u;
 %since u (input to the observer sfunction) is actually [u;y] (u, the input to the system), instead of B*u+L*y we may write [B L]*u
 

@@ -32,7 +32,7 @@ EigenValues=eig(A)
 %% Controllability and Controller Gain Design
 Pc=ctrb(A,B)
 rank(Pc)
-p=[-15 -12 -10 -8];
+p=[-15 -13 -10 -8];
 K = place(A,B,p)
 %% Observability and Estimator Gain Design
 Po=obsv(A,C)

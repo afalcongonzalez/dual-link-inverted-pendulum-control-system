@@ -1,49 +1,43 @@
-theta = [11.9253 0.4203 0.1455 7.2462 1.8150 35.1492 0.0089]'; % identification from phase 2 see "Identified System Parameters.txt"
+Parameters = [11.9253 0.4203 0.1455 7.2462 1.8150 35.1492 0.0089]'; % identification from phase 2 see "Identified System Parameters.txt"
+% Case 1: Angle 1 = pi/2, Angle 2 = 0
+q10 = pi/2;
+q20 = 0; %Change to pi for Case 2
+g = 9.81;
 
-q_10 = pi/2; % linearized angle 1
+X0 = [q10-0.1, q20+.2 , 0 ,0]';
+Kbar = [-(Parameters(4)*g*sin(q10))-sin(q10+q20)*Parameters(5)*g -sin(q10+q20)*Parameters(5)*g;-sin(q10+q20)*Parameters(5)*g -sin(q10+q20)*Parameters(5)*g];
+Mbar = [Parameters(1)+2*Parameters(2)*cos(q20) Parameters(3)+Parameters(2)*cos(q20);Parameters(3)+Parameters(2)*cos(q20) Parameters(3)];
+Fbar = [Parameters(6) 0;0 Parameters(7)];
 
-q_20 = pi; % linearized angle 2
+A = [zeros(2,2) eye(2);-Mbar\Kbar -Mbar\Fbar];
+B = [zeros(2,2);inv(Mbar)]*[1;0];
+C = [1 0 0 0;0 1 0 0];
+D = 0;
 
-g = 9.81; 
-M = [ theta(1)-2*theta(2)*cos(q_20) , theta(3)+theta(2)*cos(q_20); theta(3)+theta(2)*cos(q_20) , theta(3)];
+sys = ss(A,B,C,D);
+figure;
+pzmap(sys);
+title('Pole-Zero Plot for Equilibrium State 2');
 
-K = [ -theta(4)*g*sin(q_10)- sin((2*1i+1)*pi/2)*theta(5)*g , -sin((2*1i+1)*pi/2)*theta(5)*g; -sin((2*1i+1)*pi/2)*theta(5)*g,-sin((2*1i+1)*pi/2)*theta(5)*g]; 
+% Controller Design
+Pd = [-15 -12 -10 -8]; 
+K = place(A,B,Pd);
 
-%from the lab documentation
-A = [ [0 0;0 0], [0 1;1 0]; -inv(M)*K ,[0 0;0 0]];
+Pc = ctrb(A,B);
+rc = rank(Pc);
 
-B = [[0 0;0 0];inv(M)]*[1;0];
+controlled = ss(A-B*K,[0 0 0 0]',C,0);
+figure;
+pzmap(controlled);
+title('Pole-Zero Plot With Controller Case:1');
+%% Observability and Estimator Gain Design
+Po=obsv(A,C)
+rank(Po)
+po=10*Pd; % ten times the gain of the controller
+L = transpose(place(A', C',po))
 
-C = [1 0 0 0; 0 1 0 0]; 
-
-% checks
-Lambda=eig(A) %eigenvalues
 
 
-% %% Checking controlability %%%
-% 
-% Pc=ctrb(A,B) %computing controllability matrix
-% Rank_c=rank(Pc) %computing the rank of the matrix
-% 
-% 
-% %% pole placement %%%
-% p=[ -10,-39.8549,-2.6731i,2.6731i]; %location of desired poles
-% 
-% k=place(A,B,p) %computed state-feedback gain
-% 
-% 
-% %% checking observability %%%
-% Po=obsv(A,C) %computing controllability matrix
-% Rank_o=rank(Po) %computing the rank of the matrix
-% 
-% 
-% %% state estimator (observer) design
-% pe=[ -10,-39.8549,-2.6731i,2.6731i]; %location of desired poles
-% LT=place(A',C',pe) %computing transpose of observer gain matrix
-% L=LT'
-% 
-% 
-% 
-% 
-% 
-% 
+
+
+
